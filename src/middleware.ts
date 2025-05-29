@@ -1,5 +1,5 @@
-// src/middleware.js
 import { defineMiddleware } from 'astro:middleware'
+import { isValidAuthToken } from '@/lib/auth'
 
 const AUTH_COOKIE_NAME = 'auth-token' // Must match the one in auth.js
 
@@ -10,7 +10,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   if (
     url.pathname.startsWith('/login') ||
     url.pathname.startsWith('/reset-pin') ||
-    url.pathname.startsWith('/favicon.svg') || // Add other public paths/assets if any
+    url.pathname.startsWith('/favicon.svg') ||
     url.pathname.startsWith('/src/styles/global.css') ||
     url.pathname.startsWith('/node_modules/')
   ) {
@@ -20,7 +20,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   // Protect dashboard routes
   if (url.pathname.startsWith('/dashboard')) {
     const authToken = cookies.get(AUTH_COOKIE_NAME)
-    if (authToken && authToken.value === 'true') {
+    if (authToken && isValidAuthToken(authToken.value)) {
       // User is authenticated
       return next()
     } else {

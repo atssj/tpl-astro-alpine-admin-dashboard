@@ -43,11 +43,20 @@ async function resetPin(email: string): Promise<AuthResponse> {
   })
 }
 
-function logout(): void {
-  document.cookie = `${AUTH_COOKIE_NAME}=; path=/; max-age=0`
-  if (typeof window !== 'undefined') {
-    window.location.href = '/login'
-  }
+function logout() {
+  // Simulate logout by removing the auth token cookie
+  document.cookie = 'auth-token=; Max-Age=0; path=/;'
+  window.location.href = '/login'
+}
+
+export function isValidAuthToken(token: string): boolean {
+  // In a real application, this function would:
+  // 1. Decode the JWT token
+  // 2. Verify its signature (using a secret key)
+  // 3. Check its expiration date
+  // 4. Validate other claims as needed
+  // For this example, we'll just check if it's a specific mock token.
+  return token === 'mock-valid-jwt'
 }
 
 function isAuthenticated(): boolean {
@@ -68,4 +77,4 @@ if (typeof window !== 'undefined') {
   }
 }
 
-export { login, resetPin, logout, isAuthenticated, type AuthResponse }
+export { login, resetPin, isAuthenticated, type AuthResponse }

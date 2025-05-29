@@ -2,19 +2,20 @@
 // src/layouts/DashboardLayout.astro
 import { ViewTransitions } from 'astro:transitions'
 import Footer from '@/components/dashboard/Footer.astro'
+import { isAuthenticated } from '../lib/auth';
 
 // Props can be extended as needed, e.g., for page title
 export interface Props {
-  title?: string
+  title?: string;
 }
-const { title = 'Admin Dashboard' } = Astro.props
+const { title = 'Admin Dashboard' } = Astro.props;
 
 // Placeholder for auth check - will be refined in a later step
 // For now, this is just to illustrate where such logic might go or be triggered.
-const isAuthenticated = true // Replace with actual check later using src/lib/auth.js
-if (!isAuthenticated && Astro.url.pathname.startsWith('/dashboard')) {
+// const isAuthenticated = true; // Replace with actual check later using src/lib/auth.js
+if (!isAuthenticated() && Astro.url.pathname.startsWith('/dashboard')) {
   // In a real app, this would be a redirect.
-  // Server-side redirect: return Astro.redirect('/login');
+  return Astro.redirect('/login');
   // Client-side redirect (if needed after page load, or if middleware isn't catching all):
   // console.warn('User not authenticated, redirecting...');
   // This is a placeholder. Actual redirection will be handled by middleware or client-script.
@@ -38,6 +39,8 @@ if (!isAuthenticated && Astro.url.pathname.startsWith('/dashboard')) {
     <aside
       id="sidebar"
       class="fixed h-full w-64 -translate-x-full transform space-y-6 bg-gray-800 p-4 text-white shadow-lg transition-transform duration-200 ease-in-out sm:relative sm:translate-x-0"
+      role="complementary"
+      aria-label="Sidebar navigation"
     >
       <!-- Sidebar slot -->
       <slot name="sidebar">
@@ -94,31 +97,43 @@ if (!isAuthenticated && Astro.url.pathname.startsWith('/dashboard')) {
     </div>
 
     <script>
-      // Basic client-side script for sidebar toggle on mobile
-      const menuToggle = document.getElementById('menu-toggle')
-      const sidebar = document.getElementById('sidebar')
+      const menuToggle = document.getElementById('menu-toggle');
+      const sidebar = document.getElementById('sidebar');
 
       if (menuToggle && sidebar) {
-        menuToggle.addEventListener('click', () => {
-          sidebar.classList.toggle('-translate-x-full')
-        })
-      }
+        const toggleSidebar = () => {
+          const isHidden = sidebar.classList.toggle('-translate-x-full');
+          menuToggle.setAttribute('aria-expanded', String(!isHidden));
+          sidebar.setAttribute('aria-hidden', String(isHidden));
+        };
+        menuToggle.addEventListener('click', toggleSidebar);
 
-      // Optional: Close sidebar when clicking outside on mobile
-      document.addEventListener('click', (event) => {
-        const target = event.target as HTMLElement
-        if (
-          sidebar &&
-          !sidebar.classList.contains('-translate-x-full') &&
-          !sidebar.contains(target) &&
-          !menuToggle?.contains(target)
-        ) {
-          if (window.innerWidth < 640) {
-            // Only for mobile view where sidebar is hidden
-            sidebar.classList.add('-translate-x-full')
+        const handleDocumentClick = (event: MouseEvent) => {
+          if (!(event.target instanceof HTMLElement)) return; // Safer type check
+
+          if (
+            sidebar &&
+            !sidebar.classList.contains('-translate-x-full') &&
+            !sidebar.contains(event.target) &&
+            !menuToggle?.contains(event.target)
+          ) {
+            if (window.innerWidth < 640) {
+              // Only for mobile view where sidebar is hidden
+              sidebar.classList.add('-translate-x-full');
+              menuToggle.setAttribute('aria-expanded', 'false');
+              sidebar.setAttribute('aria-hidden', 'true');
+            }
           }
-        }
-      })
+        };
+
+        document.addEventListener('click', handleDocumentClick);
+
+        // Cleanup function for when the component unmounts
+        document.addEventListener('astro:before-swap', () => {
+          menuToggle.removeEventListener('click', toggleSidebar);
+          document.removeEventListener('click', handleDocumentClick);
+        });
+      }
     </script>
   </body>
 </html>

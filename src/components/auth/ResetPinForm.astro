@@ -57,9 +57,9 @@ const resetPinApiUrl = `${import.meta.env.PUBLIC_BASE_API_URL}/reset-pin`;
         :disabled="isLoading"
         class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
       >
-        <Loader2 class="mr-2 h-5 w-5 animate-spin" x-show="isLoading" style="display: none;" />
+        <Loader2 class="mr-2 h-5 w-5 animate-spin" x-show="isLoading" />
         <span x-show="!isLoading">Send reset instructions</span>
-        <span x-show="isLoading" style="display: none;">Processing...</span>
+        <span x-show="isLoading">Processing...</span>
       </button>
     </div>
 
