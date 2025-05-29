@@ -1,0 +1,95 @@
+---
+// src/layouts/DashboardLayout.astro
+import { ViewTransitions } from 'astro:transitions';
+import Footer from '../../components/dashboard/Footer.astro';
+
+// Props can be extended as needed, e.g., for page title
+export interface Props {
+  title?: string;
+}
+const { title = 'Admin Dashboard' } = Astro.props;
+
+// Placeholder for auth check - will be refined in a later step
+// For now, this is just to illustrate where such logic might go or be triggered.
+const isAuthenticated = true; // Replace with actual check later using src/lib/auth.js
+if (!isAuthenticated && Astro.url.pathname.startsWith('/dashboard')) {
+  // In a real app, this would be a redirect.
+  // Server-side redirect: return Astro.redirect('/login');
+  // Client-side redirect (if needed after page load, or if middleware isn't catching all):
+  // console.warn('User not authenticated, redirecting...');
+  // This is a placeholder. Actual redirection will be handled by middleware or client-script.
+}
+---
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="/src/styles/global.css"> {/* Ensure global styles are linked */}
+  <ViewTransitions /> {/* For page transitions, if desired */}
+  <slot name="head" /> {/* For additional head elements per page */}
+</head>
+<body class="bg-gray-100 text-gray-900 flex min-h-screen">
+  <aside id="sidebar" class="w-64 bg-gray-800 text-white p-4 space-y-6 fixed h-full shadow-lg sm:relative sm:translate-x-0 transform -translate-x-full transition-transform duration-200 ease-in-out">
+    <!-- Sidebar slot -->
+    <slot name="sidebar">
+      <!-- Default Sidebar content if not provided -->
+      <div class="text-xl font-semibold">BrandLogo</div>
+      <nav>
+        <ul>
+          <li><a href="/dashboard" class="block py-2 px-3 hover:bg-gray-700 rounded">Dashboard Home</a></li>
+          <li><a href="#" class="block py-2 px-3 hover:bg-gray-700 rounded">Analytics</a></li>
+          <li><a href="#" class="block py-2 px-3 hover:bg-gray-700 rounded">Settings</a></li>
+        </ul>
+      </nav>
+    </slot>
+  </aside>
+
+  <div id="main-content" class="flex-1 flex flex-col">
+    <header id="header" class="bg-white shadow-md p-4 sticky top-0 z-10">
+      <!-- Header slot -->
+      <slot name="header">
+        <!-- Default Header content if not provided -->
+        <div class="flex justify-between items-center">
+          <button id="menu-toggle" class="sm:hidden text-gray-700 hover:text-gray-900">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            <span class="sr-only">Open sidebar</span>
+          </button>
+          <h1 class="text-xl font-semibold">{title}</h1>
+          <div>User Profile</div>
+        </div>
+      </slot>
+    </header>
+
+    <main class="flex-1 p-6">
+      <!-- Main content slot -->
+      <slot />
+    </main>
+
+    <Footer />
+  </div>
+
+  <script>
+    // Basic client-side script for sidebar toggle on mobile
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+
+    if (menuToggle && sidebar) {
+      menuToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('-translate-x-full');
+      });
+    }
+
+    // Optional: Close sidebar when clicking outside on mobile
+    document.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      if (sidebar && !sidebar.classList.contains('-translate-x-full') && !sidebar.contains(target) && !menuToggle?.contains(target)) {
+        if (window.innerWidth < 640) { // Only for mobile view where sidebar is hidden
+           sidebar.classList.add('-translate-x-full');
+        }
+      }
+    });
+  </script>
+</body>
+</html>
