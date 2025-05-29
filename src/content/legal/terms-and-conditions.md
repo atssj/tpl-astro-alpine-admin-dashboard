@@ -26,6 +26,6 @@ In no event shall Admin Dashboard, nor any of its officers, directors, and emplo
 
 ## Governing Law
 
-These terms will be governed by and interpreted in accordance with the laws of the jurisdiction in which the company is based, and you submit to the non-exclusive jurisdiction of the state and federal courts located there for the resolution of any disputes.
+These terms will be governed by and interpreted in accordance with the laws of the State of California, USA, and you submit to the non-exclusive jurisdiction of the state and federal courts located there for the resolution of any disputes.
 
 _This page is a placeholder and will be updated with actual terms and conditions._
