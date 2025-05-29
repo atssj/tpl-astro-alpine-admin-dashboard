@@ -93,15 +93,3 @@ const loginApiUrl = `${import.meta.env.PUBLIC_BASE_API_URL}/login`;
     </div>
   </form>
 </div>
-
-<script is:inline>
-  // Alpine AJAX mock route for login
-  route('POST', '/api/login', (request) => {
-    const { email, password } = request;
-    if (email === 'test@example.com' && password === 'password') {
-      return `<div id="form-error" class="hidden"></div><div id="successMessage" class="rounded-md border border-green-300 bg-green-50 p-3 text-sm text-green-700" role="status">Login successful! Redirecting...</div>`;
-    } else {
-      return `<div id="form-error" class="rounded-md border border-red-300 bg-red-50 p-3 text-sm text-red-700" role="alert">Invalid email or password.</div><div id="successMessage" class="hidden"></div>`;
-    }
-  });
-</script>

@@ -128,9 +128,8 @@ if (!isAuthenticated() && Astro.url.pathname.startsWith('/dashboard')) {
 
         document.addEventListener('click', handleDocumentClick);
 
-        // Cleanup function for when the component unmounts
+        // Cleanup: Remove event listener on component unmount
         document.addEventListener('astro:before-swap', () => {
-          menuToggle.removeEventListener('click', toggleSidebar);
           document.removeEventListener('click', handleDocumentClick);
         });
       }
