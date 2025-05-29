@@ -1,0 +1,137 @@
+---
+// src/components/auth/LoginForm.astro
+import { Eye, EyeOff, Loader2 } from 'lucide-astro';
+---
+<div
+  x-data="{
+    email: '',
+    password: '',
+    error: '',
+    successMessage: '',
+    isLoading: false,
+    showPassword: false
+  }"
+  class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md"
+>
+  <h2 class="text-2xl font-bold text-center text-gray-900">Log in to your account</h2>
+
+  <form
+    @submit.prevent="
+      isLoading = true;
+      error = '';
+      successMessage = '';
+      // Ensure window.auth is available (it should be if auth.js loaded)
+      if (!window.auth || typeof window.auth.login !== 'function') {
+        error = 'Authentication service is not available. Please try again later.';
+        isLoading = false;
+        return;
+      }
+      // Using a then/catch for promise handling with alpine-ajax style
+      window.auth.login(email, password)
+        .then(response => {
+          if (response.success) {
+            successMessage = 'Login successful! Redirecting...';
+            setTimeout(() => {
+              window.location.href = '/dashboard';
+            }, 1000);
+          } else {
+            error = response.message || 'An unknown error occurred.';
+          }
+        })
+        .catch(err => {
+          console.error('Login error:', err);
+          error = 'Failed to connect to the server. Please try again.';
+        })
+        .finally(() => {
+          isLoading = false;
+        });
+    "
+    class="space-y-6"
+    x-init="
+      $watch('email', value => { if(error) error = '' });
+      $watch('password', value => { if(error) error = '' });
+    "
+  >
+    <div>
+      <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        autocomplete="email"
+        required
+        x-model="email"
+        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        :class="{ 'border-red-500': error && error.toLowerCase().includes('email') }"
+        aria-describedby="email-error"
+      />
+    </div>
+
+    <div>
+      <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+      <div class="mt-1 relative">
+        <input
+          id="password"
+          name="password"
+          :type="showPassword ? 'text' : 'password'"
+          autocomplete="current-password"
+          required
+          x-model="password"
+          class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          :class="{ 'border-red-500': error && error.toLowerCase().includes('password') }"
+          aria-describedby="password-error"
+        />
+        <button
+          type="button"
+          @click="showPassword = !showPassword"
+          class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 text-gray-500 hover:text-gray-700"
+          aria-label="Toggle password visibility"
+        >
+          <Eye class="h-5 w-5" x-show="!showPassword" />
+          <EyeOff class="h-5 w-5" x-show="showPassword" style="display: none;" />
+        </button>
+      </div>
+    </div>
+
+    <template x-if="error">
+      <div
+        id="form-error"
+        class="p-3 bg-red-50 border border-red-300 rounded-md text-sm text-red-700"
+        role="alert"
+        x-text="error"
+      ></div>
+    </template>
+
+    <template x-if="successMessage">
+      <div class="p-3 bg-green-50 border border-green-300 rounded-md text-sm text-green-700" role="status" x-text="successMessage"></div>
+    </template>
+
+    <div>
+      <button
+        type="submit"
+        :disabled="isLoading"
+        class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        <Loader2 class="animate-spin h-5 w-5 mr-2" x-show="isLoading" style="display: none;" />
+        <span x-show="!isLoading">Log in</span>
+        <span x-show="isLoading" style="display: none;">Processing...</span>
+      </button>
+    </div>
+
+    <div class="text-sm text-center">
+      <a href="/reset-pin" class="font-medium text-indigo-600 hover:text-indigo-500">
+        Forgot your password?
+      </a>
+    </div>
+  </form>
+</div>
+
+<script>
+// This component relies on Alpine.js being globally available.
+// It also relies on `window.auth` (from `src/lib/auth.js`) being available for the login function.
+// The `@imacrayon/alpine-ajax` plugin is not explicitly used here as the form submission
+// is handled by directly calling `window.auth.login` which returns a Promise.
+// If `alpine-ajax` were to be used, the `@submit` would look like:
+// e.g. <form x-ajax action="/api/login" method="post"> where /api/login is a backend endpoint
+// For this project, direct calls to `window.auth` functions are simpler as it's a mock auth.
+</script>

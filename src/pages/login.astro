@@ -1,0 +1,27 @@
+---
+// src/pages/login.astro
+import LoginForm from '../../components/auth/LoginForm.astro';
+import { LockKeyhole } from 'lucide-astro'; // Optional: for a logo/icon
+---
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="/src/styles/global.css"> {/* Ensure Tailwind base is loaded */}
+  <title>Login | Admin Dashboard</title>
+  <script is:inline src="/node_modules/alpinejs/dist/cdn.min.js" defer></script> {/* Ensure Alpine.js is loaded */}
+</head>
+<body class="bg-slate-100 antialiased">
+  <div class="flex flex-col items-center justify-center min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div class="mb-8 flex flex-col items-center">
+      <div class="p-3 bg-indigo-600 rounded-full text-white mb-3">
+        <LockKeyhole size={32} stroke-width={2.5} />
+      </div>
+      <h1 class="text-3xl font-bold text-slate-800">Admin Dashboard</h1>
+      <p class="mt-1 text-sm text-slate-600">Access your account</p>
+    </div>
+    <LoginForm />
+  </div>
+</body>
+</html>

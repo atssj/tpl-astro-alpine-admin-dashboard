@@ -1,0 +1,63 @@
+---
+// src/layouts/StaticPageLayout.astro
+import Footer from '../components/dashboard/Footer.astro'; // Assuming footer is general enough
+import { Home } from 'lucide-astro'; // For a home link icon
+
+export interface Props {
+  title: string; // For the <title> tag and main heading
+  // Potentially other props like description for meta tags
+}
+
+const { title } = Astro.props;
+---
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="/src/styles/global.css">
+  <title>{title} | Admin Dashboard</title>
+  <script is:inline src="/node_modules/alpinejs/dist/cdn.min.js" defer></script>
+  <style>
+    /* Basic prose styling for markdown content if not handled by Tailwind typography plugin */
+    .prose {
+      @apply text-gray-700 dark:text-gray-300;
+    }
+    .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+      @apply font-semibold mb-4 mt-6 text-gray-900 dark:text-white;
+    }
+    .prose h1 { @apply text-3xl; }
+    .prose h2 { @apply text-2xl; }
+    .prose h3 { @apply text-xl; }
+    .prose p, .prose ul, .prose ol, .prose blockquote {
+      @apply mb-4 leading-relaxed;
+    }
+    .prose a {
+      @apply text-indigo-600 hover:underline dark:text-indigo-400;
+    }
+    .prose ul { @apply list-disc pl-5; }
+    .prose ol { @apply list-decimal pl-5; }
+    /* Add more .prose styles as needed if Tailwind Typography plugin is not used */
+  </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 antialiased flex flex-col min-h-screen">
+  <header class="bg-white dark:bg-slate-800 shadow-sm border-b dark:border-slate-700">
+    <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+      <a href="/" class="flex items-center text-lg font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-500">
+        <Home class="h-5 w-5 mr-2" />
+        <span>Admin Dashboard Home</span>
+      </a>
+      {/* Add other nav links here if needed for static pages, e.g., back to dashboard if logged in */}
+    </nav>
+  </header>
+
+  <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <article class="bg-white dark:bg-slate-800 shadow-lg rounded-lg p-6 md:p-8 lg:p-10 prose max-w-none">
+      <h1 class="!text-4xl font-bold !mb-6 border-b pb-4 dark:border-slate-700">{title}</h1>
+      <slot name="content" /> {/* Where the main Markdown/MDX content will be rendered */}
+    </article>
+  </main>
+
+  <Footer />
+</body>
+</html>

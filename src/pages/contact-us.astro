@@ -1,0 +1,73 @@
+---
+// src/pages/contact-us.astro
+import StaticPageLayout from '../layouts/StaticPageLayout.astro';
+import { Mail, Phone, MapPin, Send } from 'lucide-astro'; // Icons for contact info and form
+---
+<StaticPageLayout title="Contact Us">
+  <Fragment slot="content">
+    <div class="space-y-12">
+      <section class="text-center">
+        <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-4">Get in Touch</h2>
+        <p class="text-lg text-gray-600 dark:text-gray-400">
+          We'd love to hear from you! Whether you have a question about features, trials, pricing, or anything else, our team is ready to answer all your questions.
+        </p>
+      </section>
+
+      <section class="grid md:grid-cols-2 gap-10 items-start">
+        {/* Contact Information Section */}
+        <div class="space-y-6 bg-gray-50 dark:bg-gray-700 p-6 rounded-lg shadow">
+          <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">Our Contact Information</h3>
+          <div class="flex items-start space-x-3 text-gray-700 dark:text-gray-300">
+            <MapPin class="h-6 w-6 text-indigo-600 dark:text-indigo-400 mt-1 flex-shrink-0" />
+            <span>
+              Admin Dashboard HQ<br />
+              123 Business Rd, Suite 456<br />
+              Anytown, ST 98765, USA
+            </span>
+          </div>
+          <div class="flex items-center space-x-3 text-gray-700 dark:text-gray-300">
+            <Mail class="h-6 w-6 text-indigo-600 dark:text-indigo-400 flex-shrink-0" />
+            <a href="mailto:contact@admindashboard.example.com" class="hover:underline">contact@admindashboard.example.com</a>
+          </div>
+          <div class="flex items-center space-x-3 text-gray-700 dark:text-gray-300">
+            <Phone class="h-6 w-6 text-indigo-600 dark:text-indigo-400 flex-shrink-0" />
+            <a href="tel:+1234567890" class="hover:underline">+1 (234) 567-890</a>
+          </div>
+          <p class="text-sm text-gray-500 dark:text-gray-400 pt-4">
+            Office Hours: Monday - Friday, 9:00 AM - 5:00 PM (Your Timezone)
+          </p>
+        </div>
+
+        {/* Contact Form Section (HTML Structure Only) */}
+        <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg shadow">
+          <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">Send Us a Message</h3>
+          <form action="#" method="POST" class="space-y-6 needs-validation" novalidate>
+            <div>
+              <label for="contact-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Full Name</label>
+              <input type="text" name="name" id="contact-name" autocomplete="name" required class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:text-white sm:text-sm" placeholder="Your Name">
+            </div>
+            <div>
+              <label for="contact-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email Address</label>
+              <input type="email" name="email" id="contact-email" autocomplete="email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:text-white sm:text-sm" placeholder="you@example.com">
+            </div>
+            <div>
+              <label for="contact-subject" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Subject</label>
+              <input type="text" name="subject" id="contact-subject" required class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:text-white sm:text-sm" placeholder="Subject of your message">
+            </div>
+            <div>
+              <label for="contact-message" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Message</label>
+              <textarea name="message" id="contact-message" rows="4" required class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:text-white sm:text-sm" placeholder="Your message..."></textarea>
+            </div>
+            <div class="text-right">
+              <button type="submit" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 dark:focus:ring-offset-gray-800">
+                <Send class="h-5 w-5 mr-2 -ml-1" />
+                Send Message (Non-functional)
+              </button>
+            </div>
+            <p class="text-xs text-gray-500 dark:text-gray-400 text-center">Note: This form is for demonstration purposes only and does not submit data.</p>
+          </form>
+        </div>
+      </section>
+    </div>
+  </Fragment>
+</StaticPageLayout>
