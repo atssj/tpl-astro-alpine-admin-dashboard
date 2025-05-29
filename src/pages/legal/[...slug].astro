@@ -1,21 +1,22 @@
 ---
 // src/pages/legal/[...slug].astro
-import { getCollection } from 'astro:content';
-import StaticPageLayout from '../../layouts/StaticPageLayout.astro';
+import { getCollection } from 'astro:content'
+import StaticPageLayout from '../../layouts/StaticPageLayout.astro'
 
 export async function getStaticPaths() {
-  const legalEntries = await getCollection('legal');
-  return legalEntries.map(entry => ({
-    params: { slug: entry.slug },
-    props: { entry },
-  }));
+	const legalEntries = await getCollection('legal')
+	return legalEntries.map((entry) => ({
+		params: { slug: entry.slug },
+		props: { entry }
+	}))
 }
 
-const { entry } = Astro.props;
-const { Content } = await entry.render();
+const { entry } = Astro.props
+const { Content } = await entry.render()
 ---
+
 <StaticPageLayout title={entry.data.title}>
-  <Fragment slot="content">
-    <Content />
-  </Fragment>
+	<Fragment slot="content">
+		<Content />
+	</Fragment>
 </StaticPageLayout>

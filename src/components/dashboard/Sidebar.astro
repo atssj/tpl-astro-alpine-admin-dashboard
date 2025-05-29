@@ -1,84 +1,101 @@
 ---
 // src/components/dashboard/Sidebar.astro
-import { Home, BarChart3, Settings, LogOut } from 'lucide-astro';
+import { Home, BarChart3, Settings, LogOut } from 'lucide-astro'
 
 // This component will be used within a slot of DashboardLayout.astro
 // It could take props for active page, user roles, etc. in a real app.
 
 const navigationItems = [
-  { href: "/dashboard", label: "Dashboard", icon: Home },
-  { href: "/dashboard/analytics", label: "Analytics", icon: BarChart3 }, // Assuming an analytics page
-  { href: "/dashboard/settings", label: "Settings", icon: Settings },   // Assuming a settings page
-];
+	{ href: '/dashboard', label: 'Dashboard', icon: Home },
+	{ href: '/dashboard/analytics', label: 'Analytics', icon: BarChart3 }, // Assuming an analytics page
+	{ href: '/dashboard/settings', label: 'Settings', icon: Settings } // Assuming a settings page
+]
 
 // Placeholder for logout functionality
 const handleLogout = () => {
-  // In a real app, this would call auth.logout() and redirect.
-  // For now, it's a client-side alert.
-  // This will be properly implemented later.
-  // Note: Astro components are server-rendered, direct client-side JS like this
-  // in the component's script section needs to be handled carefully,
-  // often via <script> tags or by AlpineJS.
-  console.log('Logout action triggered');
-};
+	// In a real app, this would call auth.logout() and redirect.
+	// For now, it's a client-side alert.
+	// This will be properly implemented later.
+	// Note: Astro components are server-rendered, direct client-side JS like this
+	// in the component's script section needs to be handled carefully,
+	// often via <script> tags or by AlpineJS.
+	console.log('Logout action triggered')
+}
 ---
-<div class="flex flex-col h-full">
-  <div class="p-4">
-    <a href="/dashboard" class="flex items-center space-x-2 text-white">
-      <!-- Replace with your actual logo component or SVG if you have one -->
-      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-app-window"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="M10 4v4"/><path d="M2 8h20"/><path d="m10 16 2-2 2 2"/></svg>
-      <span class="text-xl font-semibold">AdminPro</span>
-    </a>
-  </div>
 
-  <nav class="flex-1 px-3 py-4 space-y-2" aria-label="Sidebar">
-    {navigationItems.map(item => (
-      <a
-        href={item.href}
-        class:list={[
-          "flex items-center space-x-3 px-3 py-2.5 rounded-md text-sm font-medium",
-          "text-gray-300 hover:bg-gray-700 hover:text-white",
-          // Example of how to mark active link, assuming Astro.url.pathname is available
-          // This might need adjustment based on how active state is truly managed
-          Astro.url.pathname === item.href || (item.href !== "/dashboard" && Astro.url.pathname.startsWith(item.href))
-            ? "bg-gray-900 text-white"
-            : "text-gray-300 hover:bg-gray-700 hover:text-white",
-        ]}
-        aria-current={Astro.url.pathname === item.href ? "page" : undefined}
-      >
-        <item.icon class="h-5 w-5" />
-        <span>{item.label}</span>
-      </a>
-    ))}
-  </nav>
+<div class="flex h-full flex-col">
+	<div class="p-4">
+		<a href="/dashboard" class="flex items-center space-x-2 text-white">
+			<!-- Replace with your actual logo component or SVG if you have one -->
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="28"
+				height="28"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				class="lucide lucide-app-window"
+				><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="M10 4v4"></path><path
+					d="M2 8h20"></path><path d="m10 16 2-2 2 2"></path></svg
+			>
+			<span class="text-xl font-semibold">AdminPro</span>
+		</a>
+	</div>
 
-  <div class="p-3 mt-auto border-t border-gray-700">
-    <button
-      id="logout-button-sidebar"
-      class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-      title="Logout"
-      aria-label="Logout"
-    >
-      <LogOut class="h-5 w-5" />
-      <span>Logout</span>
-    </button>
-  </div>
+	<nav class="flex-1 space-y-2 px-3 py-4" aria-label="Sidebar">
+		{
+			navigationItems.map((item) => (
+				<a
+					href={item.href}
+					class:list={[
+						'flex items-center space-x-3 rounded-md px-3 py-2.5 text-sm font-medium',
+						'text-gray-300 hover:bg-gray-700 hover:text-white',
+						// Example of how to mark active link, assuming Astro.url.pathname is available
+						// This might need adjustment based on how active state is truly managed
+						Astro.url.pathname === item.href ||
+						(item.href !== '/dashboard' && Astro.url.pathname.startsWith(item.href))
+							? 'bg-gray-900 text-white'
+							: 'text-gray-300 hover:bg-gray-700 hover:text-white'
+					]}
+					aria-current={Astro.url.pathname === item.href ? 'page' : undefined}
+				>
+					<item.icon class="h-5 w-5" />
+					<span>{item.label}</span>
+				</a>
+			))
+		}
+	</nav>
+
+	<div class="mt-auto border-t border-gray-700 p-3">
+		<button
+			id="logout-button-sidebar"
+			class="flex w-full items-center space-x-3 rounded-md px-3 py-2.5 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+			title="Logout"
+			aria-label="Logout"
+		>
+			<LogOut class="h-5 w-5" />
+			<span>Logout</span>
+		</button>
+	</div>
 </div>
 
 <script>
-  // Script for handling logout. Will be improved with auth.js later.
-  // This demonstrates how client-side interaction for logout can be initiated from sidebar.
-  const logoutButtonSidebar = document.getElementById('logout-button-sidebar');
-  if (logoutButtonSidebar) {
-    logoutButtonSidebar.addEventListener('click', () => {
-      // Placeholder: actual logout logic will be in auth.js and called from here.
-      // For now, it will try to call a global function if available, or just alert.
-      if (typeof window.auth !== 'undefined' && typeof window.auth.logout === 'function') {
-        window.auth.logout();
-      } else {
-        alert('Logout initiated! (Placeholder - connect to auth.js)');
-        // Potentially: window.location.href = '/login';
-      }
-    });
-  }
+	// Script for handling logout. Will be improved with auth.js later.
+	// This demonstrates how client-side interaction for logout can be initiated from sidebar.
+	const logoutButtonSidebar = document.getElementById('logout-button-sidebar')
+	if (logoutButtonSidebar) {
+		logoutButtonSidebar.addEventListener('click', () => {
+			// Placeholder: actual logout logic will be in auth.js and called from here.
+			// For now, it will try to call a global function if available, or just alert.
+			if (typeof window.auth !== 'undefined' && typeof window.auth.logout === 'function') {
+				window.auth.logout()
+			} else {
+				alert('Logout initiated! (Placeholder - connect to auth.js)')
+				// Potentially: window.location.href = '/login';
+			}
+		})
+	}
 </script>

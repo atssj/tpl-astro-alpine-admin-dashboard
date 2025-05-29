@@ -1,23 +1,24 @@
 ---
 // src/components/auth/ResetPinForm.astro
-import { Loader2 } from 'lucide-astro';
+import { Loader2 } from 'lucide-astro'
 ---
+
 <div
-  x-data="{
+	x-data="{
     email: '',
     message: '', // For success or neutral messages from the server
     error: '',   // For client-side validation errors or server error messages
     isLoading: false
   }"
-  class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md"
+	class="w-full max-w-md space-y-6 rounded-lg bg-white p-8 shadow-md"
 >
-  <h2 class="text-2xl font-bold text-center text-gray-900">Reset your PIN</h2>
-  <p class="text-center text-sm text-gray-600">
-    Enter your email address and we'll send you instructions to reset your PIN.
-  </p>
+	<h2 class="text-center text-2xl font-bold text-gray-900">Reset your PIN</h2>
+	<p class="text-center text-sm text-gray-600">
+		Enter your email address and we'll send you instructions to reset your PIN.
+	</p>
 
-  <form
-    @submit.prevent="
+	<form
+		@submit.prevent="
       isLoading = true;
       message = '';
       error = '';
@@ -52,49 +53,57 @@ import { Loader2 } from 'lucide-astro';
           isLoading = false;
         });
     "
-    class="space-y-6"
-    x-init="
+		class="space-y-6"
+		x-init="
       $watch('email', value => { if(error) error = '' });
     "
-  >
-    <div>
-      <label for="email-reset" class="block text-sm font-medium text-gray-700">Email address</label>
-      <input
-        id="email-reset"
-        name="email"
-        type="email"
-        autocomplete="email"
-        required
-        x-model="email"
-        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-        :class="{ 'border-red-500': error }"
-      />
-    </div>
+	>
+		<div>
+			<label for="email-reset" class="block text-sm font-medium text-gray-700">Email address</label>
+			<input
+				id="email-reset"
+				name="email"
+				type="email"
+				autocomplete="email"
+				required
+				x-model="email"
+				class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none sm:text-sm"
+				:class="{ 'border-red-500': error }"
+			/>
+		</div>
 
-    <template x-if="error">
-      <div class="p-3 bg-red-50 border border-red-300 rounded-md text-sm text-red-700" role="alert" x-text="error"></div>
-    </template>
+		<template x-if="error">
+			<div
+				class="rounded-md border border-red-300 bg-red-50 p-3 text-sm text-red-700"
+				role="alert"
+				x-text="error"
+			>
+			</div>
+		</template>
 
-    <template x-if="message">
-      <div class="p-3 bg-green-50 border border-green-300 rounded-md text-sm text-green-700" role="status" x-text="message"></div>
-    </template>
+		<template x-if="message">
+			<div
+				class="rounded-md border border-green-300 bg-green-50 p-3 text-sm text-green-700"
+				role="status"
+				x-text="message"
+			>
+			</div>
+		</template>
 
-    <div>
-      <button
-        type="submit"
-        :disabled="isLoading"
-        class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        <Loader2 class="animate-spin h-5 w-5 mr-2" x-show="isLoading" style="display: none;" />
-        <span x-show="!isLoading">Send reset instructions</span>
-        <span x-show="isLoading" style="display: none;">Processing...</span>
-      </button>
-    </div>
+		<div>
+			<button
+				type="submit"
+				:disabled="isLoading"
+				class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+			>
+				<Loader2 class="mr-2 h-5 w-5 animate-spin" x-show="isLoading" style="display: none;" />
+				<span x-show="!isLoading">Send reset instructions</span>
+				<span x-show="isLoading" style="display: none;">Processing...</span>
+			</button>
+		</div>
 
-     <div class="text-sm text-center">
-      <a href="/login" class="font-medium text-indigo-600 hover:text-indigo-500">
-        Back to Login
-      </a>
-    </div>
-  </form>
+		<div class="text-center text-sm">
+			<a href="/login" class="font-medium text-indigo-600 hover:text-indigo-500"> Back to Login </a>
+		</div>
+	</form>
 </div>
