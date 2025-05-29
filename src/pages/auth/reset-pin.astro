@@ -1,0 +1,28 @@
+---
+import { MailQuestion } from 'lucide-astro'
+
+import ResetPinForm from '@/components/auth/ResetPinForm.astro'
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/src/styles/global.css" />
+    <title>Reset PIN | Admin Dashboard</title>
+    <script is:inline src="/node_modules/alpinejs/dist/cdn.min.js" defer></script>
+  </head>
+  <body class="bg-slate-100 antialiased">
+    <div class="flex min-h-screen flex-col items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+      <div class="mb-8 flex flex-col items-center">
+        <div class="mb-3 rounded-full bg-indigo-600 p-3 text-white">
+          <MailQuestion size={32} stroke-width={2.5} />
+        </div>
+        <h1 class="text-3xl font-bold text-slate-800">Admin Dashboard</h1>
+        <p class="mt-1 text-sm text-slate-600">Reset your PIN</p>
+      </div>
+      <ResetPinForm />
+    </div>
+  </body>
+</html>
