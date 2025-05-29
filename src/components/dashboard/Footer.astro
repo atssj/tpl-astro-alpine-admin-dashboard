@@ -1,13 +1,26 @@
 ---
 // src/components/dashboard/Footer.astro
-const currentYear = new Date().getFullYear();
+const currentYear = new Date().getFullYear()
 ---
-<footer class="bg-white p-6 text-center text-sm text-gray-600 border-t border-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700">
-  <nav class="flex justify-center items-center space-x-4 sm:space-x-6 mb-4 text-gray-500 dark:text-gray-400">
-    <a href="/legal/privacy-policy" class="hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline">Privacy Policy</a>
-    <a href="/legal/terms-and-conditions" class="hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline">Terms & Conditions</a>
-    <a href="/contact-us" class="hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline">Contact Us</a>
-    <!-- Potentially add other links like About Us, FAQ, etc. -->
-  </nav>
-  <p>&copy; {currentYear} Admin Dashboard. All rights reserved.</p>
+
+<footer
+	class="border-t border-gray-200 bg-white p-6 text-center text-sm text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"
+>
+	<nav
+		class="mb-4 flex items-center justify-center space-x-4 text-gray-500 sm:space-x-6 dark:text-gray-400"
+	>
+		<a
+			href="/legal/privacy-policy"
+			class="hover:text-indigo-600 hover:underline dark:hover:text-indigo-400">Privacy Policy</a
+		>
+		<a
+			href="/legal/terms-and-conditions"
+			class="hover:text-indigo-600 hover:underline dark:hover:text-indigo-400">Terms & Conditions</a
+		>
+		<a href="/contact-us" class="hover:text-indigo-600 hover:underline dark:hover:text-indigo-400"
+			>Contact Us</a
+		>
+		<!-- Potentially add other links like About Us, FAQ, etc. -->
+	</nav>
+	<p>&copy; {currentYear} Admin Dashboard. All rights reserved.</p>
 </footer>

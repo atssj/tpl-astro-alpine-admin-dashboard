@@ -1,0 +1,11 @@
+root = true
+
+[*]
+indent_style = space
+indent_size = 2
+end_of_line = auto
+insert_final_newline = true
+
+[*.{ts,tsx,js,jsx,astro}]
+quote_type = single
+trailing_comma = es5
