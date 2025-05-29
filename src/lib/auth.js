@@ -2,10 +2,15 @@
 const AUTH_COOKIE_NAME = 'auth-token';
 
 /**
- * Simulates a login API call.
- * @param {string} email
- * @param {string} password
- * @returns {Promise<{success: boolean, message?: string}>}
+ * Simulates an asynchronous login process using hardcoded credentials.
+ *
+ * Resolves with a success object and sets an authentication cookie if the provided email and password match the expected values. Otherwise, resolves with a failure object and an appropriate message.
+ *
+ * @param {string} email - The user's email address.
+ * @param {string} password - The user's password.
+ * @returns {Promise<{success: boolean, message?: string}>} Promise resolving to an object indicating login success or failure, and an optional message.
+ *
+ * @remark Only the credentials `admin@example.com` and `password123` are accepted as valid.
  */
 async function login(email, password) {
   console.log('Attempting login with:', email);
@@ -25,9 +30,12 @@ async function login(email, password) {
 }
 
 /**
- * Simulates a Reset PIN API call. (No changes to auth state, so no cookie interaction here)
- * @param {string} email
- * @returns {Promise<{success: boolean, message?: string}>}
+ * Simulates an asynchronous PIN reset request for the provided email address.
+ *
+ * Resolves with a success message if the email appears valid, otherwise returns an error message.
+ *
+ * @param {string} email - The email address to send the PIN reset link to.
+ * @returns {Promise<{success: boolean, message?: string}>} Promise resolving to the result of the PIN reset attempt.
  */
 async function resetPin(email) {
   console.log('Attempting to reset PIN for:', email);
@@ -43,7 +51,9 @@ async function resetPin(email) {
 }
 
 /**
- * Logs the user out.
+ * Logs out the current user by clearing the authentication cookie and redirecting to the login page.
+ *
+ * @remark If not running in a browser environment, the redirect is skipped.
  */
 function logout() {
   // Clear the client-side cookie
@@ -54,8 +64,11 @@ function logout() {
 }
 
 /**
- * Checks if the user is authenticated (client-side).
- * @returns {boolean}
+ * Determines whether the user is currently authenticated by checking for the presence of the authentication cookie.
+ *
+ * @returns {boolean} `true` if the authentication cookie is set to `true`; otherwise, `false`.
+ *
+ * @remark Returns `false` if not running in a browser environment.
  */
 function isAuthenticated() {
   if (typeof document !== 'undefined') {
