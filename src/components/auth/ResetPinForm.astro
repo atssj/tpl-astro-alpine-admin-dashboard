@@ -10,7 +10,16 @@ const resetPinApiUrl = `${import.meta.env.PUBLIC_BASE_API_URL}/reset-pin`
     Enter your email address and we'll send you instructions to reset your PIN.
   </p>
 
-  <form x-target="message error" method="POST" action={resetPinApiUrl} class="space-y-6">
+  <form
+    x-target="message error"
+    method="POST"
+    action={resetPinApiUrl}
+    class="space-y-6"
+    x-data="{isLoading: false}"
+    @alpine:request="document.getElementById('message').innerHTML = ''; document.getElementById('error').innerHTML = ''; isLoading = true"
+    @alpine:response="isLoading = false"
+    @alpine:error="isLoading = false"
+  >
     <div>
       <label for="email-reset" class="block text-sm font-medium text-gray-700">Email address</label>
       <input
@@ -28,6 +37,8 @@ const resetPinApiUrl = `${import.meta.env.PUBLIC_BASE_API_URL}/reset-pin`
       class="rounded-md border border-red-300 bg-red-50 p-3 text-sm text-red-700"
       role="alert"
       id="error"
+      x-ref="errorDiv"
+      x-show="$refs.errorDiv && $refs.errorDiv.innerHTML.trim() !== ''"
     >
     </div>
 
@@ -35,10 +46,12 @@ const resetPinApiUrl = `${import.meta.env.PUBLIC_BASE_API_URL}/reset-pin`
       class="rounded-md border border-green-300 bg-green-50 p-3 text-sm text-green-700"
       role="status"
       id="message"
+      x-ref="messageDiv"
+      x-show="$refs.messageDiv && $refs.messageDiv.innerHTML.trim() !== ''"
     >
     </div>
 
-    <div x-data="{isLoading: false}">
+    <div>
       <button
         type="submit"
         :disabled="isLoading"
