@@ -10,11 +10,13 @@ const loginApiUrl = `${import.meta.env.PUBLIC_BASE_API_URL}/login`;
   <h2 class="text-center text-2xl font-bold text-gray-900">Log in to your account</h2>
 
   <form
-    x-target="form-error successMessage"
-    method="POST"
-    action={loginApiUrl}
     class="space-y-6"
-    x-data="{ error: '', successMessage: '' }"
+    x-data="{ error: '', successMessage: '', isLoading: false, loginUrl: '' }"
+    x-init="loginUrl = '${loginApiUrl}'"
+    @submit.prevent="$ajax(loginUrl)"
+    @alpine:request="isLoading = true; error = ''; successMessage = ''"
+    @alpine:response="isLoading = false; if (event.detail.response && event.detail.response.error) { error = event.detail.response.error; } else if (event.detail.response && event.detail.response.message && !event.detail.error) { successMessage = event.detail.response.message; } else if (event.detail.error) { error = event.detail.error.message || 'Failed to process response.'; }"
+    @alpine:error="isLoading = false; error = (event.detail.error && event.detail.error.message) ? event.detail.error.message : 'An unexpected network error occurred. Please try again.'"
   >
     <div>
       <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
@@ -74,7 +76,7 @@ const loginApiUrl = `${import.meta.env.PUBLIC_BASE_API_URL}/login`;
       </div>
     </template>
 
-    <div x-data="{ isLoading: false }">
+    <div>
       <button
         type="submit"
         :disabled="isLoading"
